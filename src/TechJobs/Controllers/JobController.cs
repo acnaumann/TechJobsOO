@@ -34,49 +34,34 @@ namespace TechJobs.Controllers
         [HttpPost]
         public IActionResult New(NewJobViewModel newJobViewModel)
         {
-            Job job = new Job();
+            
 
             ///start
             if (ModelState.IsValid)
             {
-                
-                job.Name = newJobViewModel.Name;
-                Employer employer = jobData.Employers.Find(newJobViewModel.EmployerID);
-                //job.Employer = newJobViewModel.Employer;
-                //job.Location = newJobViewModel.Location;
-                //job.CoreCompetency = newJobViewModel.CoreCompetency;
+                Job job = new Job
+                {
+                    Name = newJobViewModel.Name,
+                    Employer = jobData.Employers.Find(newJobViewModel.EmployerID),
 
 
+                    Location = jobData.Locations.Find(newJobViewModel.LocationID),
+                    CoreCompetency = jobData.CoreCompetencies.Find(newJobViewModel.CoreCompetencyID),
+                    PositionType = jobData.PositionTypes.Find(newJobViewModel.PositionTypeID)
 
+                };
 
-
-                //    //Employer thisEmployer = new Employer();
-
-                //    //foreach (var testEmployer in newJobViewModel.Employers)
-                //    //{
-                //    //    if (testEmployer.Value == newJobViewModel.EmployerID.ToString())
-                //    //    {
-                //    //        thisEmployer.ID = newJobViewModel.EmployerID;
-                //    //        thisEmployer.Value = newJobViewModel.Name;
-                //    //    }
-                //    //}
-
-                //    //job.Employer = thisEmployer;
-                //    //// end
-
-
-                //    
-                //    job.Location = newJobViewModel.Location;
+            //if (newJobViewModel.Nam)
 
                 jobData.Jobs.Add(job);
-                //    return Redirect("Index");
+                return Redirect("/Job?id=" + job.ID);
             }
             // TODO #6 - Validate the ViewModel and if valid, create a 
             // new Job and add it to the JobData data store. Then
             // redirect to the Job detail (Index) action/view for the new Job.
 
-            return Redirect("Index" + job);
-            //return View(newJobViewModel);
+            
+            return View(newJobViewModel);
         }
     }
 }
